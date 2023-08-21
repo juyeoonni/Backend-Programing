@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    https://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config/>
+	
+	<!-- component-scan 지시문은 calc.Calculator1 패키지 내에 있는 모든 클래스를 스캔하여 @Component 어노테이션이 적용된 클래스들을 스프링 컨테이너의 빈으로 등록 -->
+	<context:component-scan base-package="calc.Calculator1"/>
+
+</beans>

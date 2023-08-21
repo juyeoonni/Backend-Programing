@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!-- 	스프링이 어노테이션을 이용한 설정을 인식하도록 설정 -->
+	<context:annotation-config></context:annotation-config>
+	
+<!-- 	해당 패키지와 하위 패키지에서 @Component등의 어노테이션을 스캔하여 빈으로 등록하도록 지시 -->
+	<context:component-scan
+		base-package="tv.tvSpeaker1"></context:component-scan>
+	</beans>

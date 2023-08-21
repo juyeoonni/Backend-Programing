@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    https://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+	<bean id="myCalculator" class="calc.Calculator2.MyCalculator" />
+	<bean id="addCalculator" class="calc.Calculator2.AddCalculator" />
+	<bean id="subCalculator" class="calc.Calculator2.SubCalculator" />
+	<bean id="mulCalculator" class="calc.Calculator2.MulCalculator" />
+	<bean id="divideCalculator" class="calc.Calculator2.DivideCalculator" />
+
+</beans>
