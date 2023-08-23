@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    
+
+	<!-- kr.ac.kopo 패키지 내에서 컴포넌트를 찾아서 자동으로 빈으로 등록 -->
+	<context:component-scan
+		base-package="kr.ac.kopo" />
+
+	<!-- Spring MVC가 어노테이션을 이용한 컨트롤러, 리퀘스트 매핑, 밸리데이터 등을 처리하도록 지원을 활성화 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 기본 서블릿 핸들러를 등록하여 정적 리소스(이미지, 스타일시트, 자바스크립트 등) 요청을 처리할 수 있도록 -->
+	<mvc:default-servlet-handler />
+
+	<!-- 뷰 리졸버를 설정하는 부분입니다. 뷰 리졸버는 컨트롤러가 처리한 결과를 어떤 뷰(JSP 파일 등)로 보여줄지 결정 -->
+	<!-- JSP 뷰 리졸버를 설정 -> /WEB-INF/jsp/ 디렉토리 내에서 .jsp 확장자를 가진 파일을 뷰로 사용 -->
+	<mvc:view-resolvers>
+		<mvc:jsp prefix="/WEB-INF/jsp/" suffix=".jsp" />
+	</mvc:view-resolvers>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@192.168.119.119:1521/dink18"></property>
+		<property name="username" value="C##scott"></property>
+		<property name="password" value="tiger"></property>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:config/mybatis/mybatis-config.xml"></property>
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>		
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+		
+	</bean>
+	
+	
+</beans>
