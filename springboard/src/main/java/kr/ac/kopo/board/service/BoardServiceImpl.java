@@ -23,4 +23,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardlist;
 	}
 
+	@Override
+	public BoardVO getPostbyNO(int no) {
+		return boardDAO.getPostbyNo(no);
+	}
+
+	@Override
+	public void writeNewPost(BoardVO boardVO) {
+		boardDAO.writeNewPost(boardVO);
+		
+	}
+
 }

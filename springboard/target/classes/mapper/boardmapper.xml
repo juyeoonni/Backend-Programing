@@ -10,7 +10,19 @@
 		from t_board
 	</select>
 
-
-
+	<select id="selectbyNo" parameterType="int"
+		resultType="kr.ac.kopo.board.vo.BoardVO">
+		select no,title,writer,content,reg_date as regDate, count
+		from t_board
+		where no = #{no}
+	</select>
 	
+	
+	<insert id="insert" parameterType="kr.ac.kopo.board.vo.BoardVO">
+		insert into t_board(no, title, writer, content)
+		values (seq_t_board_no.nextval, #{title}, #{writer}, #{content})	
+	</insert>
+	
+	
+
 </mapper>

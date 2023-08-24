@@ -11,18 +11,25 @@ import kr.ac.kopo.board.vo.BoardVO;
 @Repository
 public class BoardDAOImple implements BoardDAO {
 
-	
-		@Autowired
-		private SqlSessionTemplate sqlSessionTemplate;
+	@Autowired
+	private SqlSessionTemplate sqlSessionTemplate;
 
-		@Override
-		public List<BoardVO> getAllPost() {
-			List<BoardVO> boardlist = sqlSessionTemplate.selectList("springboard.board.dao.BoardDAO.selectAll");
-		
-			return boardlist;
-		}
-		
-		
-	
+	@Override
+	public List<BoardVO> getAllPost() {
+		List<BoardVO> boardlist = sqlSessionTemplate.selectList("springboard.board.dao.BoardDAO.selectAll");
+
+		return boardlist;
+	}
+
+	@Override
+	public BoardVO getPostbyNo(int no) {
+		BoardVO boardVO = sqlSessionTemplate.selectOne("springboard.board.dao.BoardDAO.selectbyNo", no);
+		return boardVO;
+	}
+
+	@Override
+	public void writeNewPost(BoardVO boardVO) {
+		sqlSessionTemplate.insert("springboard.board.dao.BoardDAO.insert", boardVO);
+	}
 
 }

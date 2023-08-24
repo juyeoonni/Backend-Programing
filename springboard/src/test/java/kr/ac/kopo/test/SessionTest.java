@@ -30,6 +30,13 @@ public class SessionTest {
 	private BoardServiceImpl boardServiceImpl;
 	
 	@Test
+    public void selectByNoTest() {
+        BoardVO board = sqlSessionTemplate.selectOne("springboard.board.dao.BoardDAO.selectbyNo",2);        
+        System.out.println(board);                
+    }  
+	
+	
+	@Test
 	public void BoardServiceTest() {
 		List<BoardVO> boardlist = boardServiceImpl.getAllBoard();
 		
