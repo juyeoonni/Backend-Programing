@@ -9,7 +9,7 @@
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    
+
 
 	<!-- kr.ac.kopo 패키지 내에서 컴포넌트를 찾아서 자동으로 빈으로 등록 -->
 	<context:component-scan
@@ -37,24 +37,40 @@
 	<mvc:view-resolvers>
 		<mvc:jsp prefix="/WEB-INF/jsp/" suffix=".jsp" />
 	</mvc:view-resolvers>
-	
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@192.168.119.119:1521/dink18"></property>
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url"
+			value="jdbc:oracle:thin:@192.168.119.119:1521/dink18"></property>
 		<property name="username" value="C##scott"></property>
 		<property name="password" value="tiger"></property>
 	</bean>
-	
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
-		<property name="configLocation" value="classpath:config/mybatis/mybatis-config.xml"></property>
-		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>		
+		<property name="configLocation"
+			value="classpath:config/mybatis/mybatis-config.xml"></property>
+		<property name="mapperLocations"
+			value="classpath:mapper/*.xml"></property>
 	</bean>
-	
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg ref="sqlSessionFactory"/>
-		
+
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+
 	</bean>
-	
-	
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/" />
+			<mvc:exclude-mapping path="/board"/>
+			<mvc:exclude-mapping path="/login"/>
+			<mvc:exclude-mapping path="/resources/**"/>
+			<ref bean="testInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 </beans>

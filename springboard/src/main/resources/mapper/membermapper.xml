@@ -10,4 +10,9 @@
 		from t_member
 		where id=#{id} and password=#{password}
 	</select>
+	
+	<insert id="join" parameterType="kr.ac.kopo.member.vo.MemberVO">
+        insert into t_member(no, id, password, name, addr)
+        values(seq_t_member_no.nextval, #{id}, #{password}, #{name}, #{addr})
+	</insert>
 </mapper>
