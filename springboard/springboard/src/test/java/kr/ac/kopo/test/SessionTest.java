@@ -4,8 +4,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,44 +21,51 @@ public class SessionTest {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	@Autowired
-	private DataSource dataSource;
 	
 	@Autowired
 	private BoardServiceImpl boardServiceImpl;
 	
 	@Test
-    public void selectByNoTest() {
-        BoardVO board = sqlSessionTemplate.selectOne("springboard.board.dao.BoardDAO.selectbyNo",2);        
-        System.out.println(board);                
-    }  
-	
-	
-	@Test
-	public void BoardServiceTest() {
-		List<BoardVO> boardlist = boardServiceImpl.getAllBoard();
+	public void selectByNoTest() {
+		//springboard.board.dao.BoardDAO
+		BoardVO board = sqlSessionTemplate
+		.selectOne("springboard.board.dao.BoardDAO.selectbyNo",3);
 		
-		for (BoardVO boardVO : boardlist) {
-			System.out.println(boardVO);
-		}
+		System.out.println(board);
 	}
 	
 	
-	@Ignore
+	
+	@Test
+	public void BoardServiceTest() {	 
+		List<BoardVO> boardlist=
+				boardServiceImpl.getAllBoard();
+		for (BoardVO boardVO : boardlist) {
+			System.out.println(boardVO);
+		}		
+	} 
+	
+	
 	@Test
 	public void sessionTemplateTest() {
 		assertNotNull(sqlSessionTemplate);
 		System.out.println(sqlSessionTemplate);
 	}
 	
-	@Ignore
-	@Test
-	public void boardSelectAllTest() {
-		List<BoardVO> boardlist = 
-		sqlSessionTemplate.selectList("springboard.board.dao.BoardDAO.selectAll");
+	public void boardSelectAllTest() { 
+		List<BoardVO> boardlist = sqlSessionTemplate.selectList("springboard.board.dao.BoardDAO.selectAll");
 		
 		for (BoardVO boardVO : boardlist) {
 			System.out.println(boardVO);
-		}
+		}		
+	}
+	@Test
+	public void sessionTemplateTest3() {
+		assertNotNull(sqlSessionTemplate);
 	}
 }
+
+
+
+
+

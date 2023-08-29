@@ -6,6 +6,6 @@ import kr.ac.kopo.board.vo.BoardVO;
 
 public interface BoardService {
 	List<BoardVO> getAllBoard();
-	BoardVO getPostbyNO(int no);
+	BoardVO getPostbyNo(int no);
 	void writeNewPost(BoardVO boardVO);
 }

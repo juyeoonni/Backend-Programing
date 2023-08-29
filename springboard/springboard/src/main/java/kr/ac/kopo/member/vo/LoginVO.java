@@ -3,13 +3,13 @@ package kr.ac.kopo.member.vo;
 import javax.validation.constraints.NotEmpty;
 
 public class LoginVO {
-	
-	@NotEmpty(message = "id는 필수입니다.")
+
+	@NotEmpty(message = "id 는 필수입니다.")
 	private String id;
 	
 	@NotEmpty(message = "password는 필수입니다.")
-    private String password;
-    
+	private String password;
+	
 	public String getId() {
 		return id;
 	}
@@ -26,5 +26,5 @@ public class LoginVO {
 	public String toString() {
 		return "LoginVO [id=" + id + ", password=" + password + "]";
 	}
-    
+	
 }

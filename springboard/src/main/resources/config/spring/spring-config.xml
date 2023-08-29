@@ -3,19 +3,21 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context   
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/task
+http://www.springframework.org/schema/task/spring-task.xsd">
 
-
-	<!-- kr.ac.kopo 패키지 내에서 컴포넌트를 찾아서 자동으로 빈으로 등록 -->
 	<context:component-scan
 		base-package="kr.ac.kopo" />
-
-	<!-- Spring MVC가 어노테이션을 이용한 컨트롤러, 리퀘스트 매핑, 밸리데이터 등을 처리하도록 지원을 활성화 -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean
@@ -28,12 +30,7 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-
-	<!-- 기본 서블릿 핸들러를 등록하여 정적 리소스(이미지, 스타일시트, 자바스크립트 등) 요청을 처리할 수 있도록 -->
 	<mvc:default-servlet-handler />
-
-	<!-- 뷰 리졸버를 설정하는 부분입니다. 뷰 리졸버는 컨트롤러가 처리한 결과를 어떤 뷰(JSP 파일 등)로 보여줄지 결정 -->
-	<!-- JSP 뷰 리졸버를 설정 -> /WEB-INF/jsp/ 디렉토리 내에서 .jsp 확장자를 가진 파일을 뷰로 사용 -->
 	<mvc:view-resolvers>
 		<mvc:jsp prefix="/WEB-INF/jsp/" suffix=".jsp" />
 	</mvc:view-resolvers>
@@ -52,25 +49,80 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation"
-			value="classpath:config/mybatis/mybatis-config.xml"></property>
+			value="classpath:config/mybatis/mybatis-config.xml" />
 		<property name="mapperLocations"
 			value="classpath:mapper/*.xml"></property>
 	</bean>
-
 	<bean id="sqlSessionTemplate"
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
-
 	</bean>
 
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**/" />
-			<mvc:exclude-mapping path="/board"/>
-			<mvc:exclude-mapping path="/login"/>
-			<mvc:exclude-mapping path="/resources/**"/>
+			<mvc:exclude-mapping path="/board" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/resources/**" />
 			<ref bean="testInterceptor" />
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/**/" />
+			<bean id="localeChangeInterceptor"
+				class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+				<property name="paramName" value="locale" />
+				<!--다국어 locale값을 보내주는 param명입니다. -->
+			</bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>locale.messages</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
+	<task:annotation-driven scheduler="scheduler" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:scheduled-tasks>
+		<task:scheduled ref="myScheduler" method="crontest"
+			cron="0/5 * * * * ?" />
+	</task:scheduled-tasks>
+
 </beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
